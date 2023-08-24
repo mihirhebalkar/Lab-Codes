@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct ListNode {
+struct Node {
     int data;
-    struct ListNode* next;
+    struct Node* next;
 };
 
-void insert(struct ListNode** head, int data) {
-    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+void insert(struct Node** head, int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
     newNode->next = NULL;
     
     if (*head == NULL) {
         *head = newNode;
-    } else {
-        struct ListNode* current = *head;
+    }
+    else {
+        struct Node* current = *head;
         while (current->next != NULL) {
             current = current->next;
         }
@@ -22,9 +23,9 @@ void insert(struct ListNode** head, int data) {
     }
 }
 
-struct ListNode* mergeLists(struct ListNode* list1, struct ListNode* list2) {
-    struct ListNode dummy;
-    struct ListNode* tail = &dummy;
+struct Node* mergeLists(struct Node* list1, struct ListNode* list2) {
+    struct Node dummy;
+    struct Node* tail = &dummy;
 
     while (1) {
         if (list1 == NULL) {
@@ -49,12 +50,12 @@ struct ListNode* mergeLists(struct ListNode* list1, struct ListNode* list2) {
     return dummy.next;
 }
 
-struct ListNode* binarySearch(struct ListNode* head, int key) {
-    struct ListNode* left = head;
-    struct ListNode* right = NULL;
+struct Node* binarySearch(struct ListNode* head, int key) {
+    struct Node* left = head;
+    struct Node* right = NULL;
 
     while (left != right) {
-        struct ListNode* mid = left;
+        struct Node* mid = left;
         int count = 0;
         while (mid != right) {
             mid = mid->next;
@@ -62,7 +63,7 @@ struct ListNode* binarySearch(struct ListNode* head, int key) {
         }
 
         mid = left;
-        for (int i = 0; i < count / 2; i++) {
+        for (int i = 0; i < count /2; i++) {
             mid = mid->next;
         }
 
@@ -89,11 +90,11 @@ int main() {
     insert(&list2, 4);
     insert(&list2, 6);
 
-    struct ListNode* mergedList = mergeLists(list1, list2);
+    struct Node* mergedList = mergeLists(list1, list2);
 
     // Perform binary search
     int key = 6;
-    struct ListNode* result = binarySearch(mergedList, key);
+    struct Node* result = binarySearch(mergedList, key);
 
     if (result != NULL) {
         printf("Key %d found in the merged linked list.\n", key);
