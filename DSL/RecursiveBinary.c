@@ -54,7 +54,7 @@ void sort(int l,int a[])
 	}
 }
 
-recbinary(int arr[],int l,int h,int key)
+int recbinary(int arr[],int l,int h,int key)
 {
 	if(l<h)
 	{
