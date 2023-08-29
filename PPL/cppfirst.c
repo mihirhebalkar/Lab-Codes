@@ -1,5 +1,5 @@
 #include<iostream>
-
+#include<stdlib.h>
 using namespace std;
 
 class student{
@@ -34,7 +34,7 @@ class student{
 		}
 		
 		void table(){
-			cout<<"Name: "<<name<<"\tPRN: "<<prn<<"\tPercentage: "<<per<<"%"<< endl;
+			cout<<name<<"\t"<<prn<<"\t"<<per<< endl;
 		}
 }s1,s2,s3,s4,s5;
 
@@ -42,23 +42,37 @@ int main()
 {
 	cout<<"Enter details of student 1"<<endl;
     s1.Name();
+	s1.Prn();
 	s1.perc();
+	
 	cout<<"Enter details of student 2"<<endl;
 	s2.Name();
+	s2.Prn();
 	s2.perc();
+	
 	cout<<"Enter details of student 3"<<endl;
 	s3.Name();
+	s3.Prn();
 	s3.perc();
+	
 	cout<<"Enter details of student 4"<<endl;
 	s4.Name();
+	s4.Prn();
 	s4.perc();
+	
 	cout<<"Enter details of student 5"<<endl;
 	s5.Name();
+	s5.Prn();
 	s5.perc();
+	
+	system("cls");
+	
+    cout<<"Name\tPRN\tPercentage"<<endl;
 	s1.table();
 	s2.table();
 	s3.table();
 	s4.table();
 	s5.table();
+	
 	return 0;
 }
