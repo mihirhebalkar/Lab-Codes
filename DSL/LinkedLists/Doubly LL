@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Node{
+    int data;
+    struct Node *next;
+    struct Node *prev;
+}*head,*first,*second,*third;
+
+void traverse(struct Node *head);
+void last_delete();
+
+int main()
+{
+    first = (struct Node*)malloc(sizeof(struct Node));
+    second = (struct Node*)malloc(sizeof(struct Node)); // Allocate memory for second
+    third = (struct Node*)malloc(sizeof(struct Node));
+
+    first->data = 10;
+    first->next = NULL;
+    first->prev = NULL; // Initialize prev pointer
+    head = first;
+
+    second->data = 20;
+    second->prev = first;
+    second->next = NULL;
+    first->next = second;
+
+    third->data = 30;
+    third->prev = second;
+    third->next = NULL;
+    second->next = third;
+
+    traverse(head);
+    last_delete();
+    traverse(head);
+
+    return 0;
+}
+
+void traverse(struct Node *head)
+{
+    int count=0;
+    struct Node *ptr;
+    ptr=head;
+    printf("Values : ");
+    while(ptr!=NULL)
+    {
+        printf("%d ",ptr->data);
+        count++;
+        ptr=ptr->next;
+    }
+    printf("\nCount = %d\n",count);
+}
+
+void last_delete()  
+{  
+    struct Node *ptr;  
+    if(head == NULL)  
+    {  
+        printf("\n UNDERFLOW\n");  
+    }  
+    else if(head->next == NULL)  
+    {  
+        free(head);  
+        head = NULL;   
+        printf("\nNode Deleted\n");  
+    }  
+    else   
+    {  
+        ptr = head;   
+        while(ptr->next != NULL)  
+        {  
+            ptr = ptr->next;   
+        }  
+        ptr->prev->next=NULL;
+
+        free(ptr);  
+        printf("\nNode Deleted\n");  
+    }  
+}
