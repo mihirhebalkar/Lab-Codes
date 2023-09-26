@@ -69,11 +69,11 @@ complex add(complex c1, complex c2)
 
 int main()
 {
-	complex n3,summ;
+	complex n3,sum;
 	int opt=0;
-	while(opt!=4)
+	while(opt!=5)
 	{
-		cout<<"Option 1: Using constructor\nOption 2: Using parameterized constructor\nOption 3: Using friend functions\nOption 4: Exit";
+		cout<<"Option 1: Using constructor\nOption 2: Using parameterized constructor\nOption 3: Using friend functions\nOption 4: Using Copy Constructor \nOption 5: Exit";
 		cout<<"\nEnter option : ";
 		cin>>opt;
 		switch(opt)
@@ -83,33 +83,46 @@ int main()
 				complex n1(3);
 				complex n2(4);
 				n3=add(n1,n2);
-				summ.display_sum(n3);
+				n3.display_sum(n3);
 				break;
 			}
 			case 2:{
 				complex n1(3.2,4.1);
 				complex n2(8.5,4.8);
 				n3=add(n1,n2);
-				summ.display_sum(n3);
-				break;}
+				n3.display_sum(n3);
+				break;
+			}
 				
 			case 3:{
 				complex n1,n2;
 				n1.getdata();
 				n2.getdata();
 				n3=add(n1,n2);
-				summ.display_sum(n3);
+				n3.display_sum(n3);
 				break;
 			}
 			
-			case 4:
+			case 4:{
+				complex n1,n2;
+				n1.getdata();
+				n2.getdata();
+				n3=add(n1,n2);
+				complex sum(n3);
+				sum.display_sum(sum);
+				break;
+			}
+			
+			case 5:
 				break;
 				
 			default:
 				cout<<"No such option!";
 				break;
 		}
-		cout<<"\n\nExited";
+		
 	
 	}
+	cout<<"\nExited";
+	return 0;
 }
