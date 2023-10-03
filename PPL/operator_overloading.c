@@ -20,10 +20,8 @@ class complex{
 		}
 		void get_data()
 		{
-			cout<<"Enter real part : ";
-			cin>>real;
-			cout<<"Enter imaginary part : ";
-			cin>>img;			
+			cout<<"Enter number (a+bi): ";
+			cin>>real>>img;
 		}
 		
 		
@@ -110,9 +108,9 @@ int main()
 				complex c;
 				c.get_data();
 
-				cout<<"\nBefore incrementing : ";
+				cout<<"\nBefore decrementing : ";
 				c.display();
-				cout<<"\nAfter incrementing : ";
+				cout<<"\nAfter decrementing : ";
 				--c;
 				c.display();
 				break;
