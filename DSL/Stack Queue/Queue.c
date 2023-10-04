@@ -1,3 +1,5 @@
+//Mihir Hebalkar PRN: 2207122120
+
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -9,76 +11,88 @@ struct node
 
 struct node *front = NULL, *rear = NULL;
 
-void enqueue(int val)
+void insert(int val)
 {
-    struct node *newNode = malloc(sizeof(struct node));
+    struct node *newNode =(struct node *) malloc(sizeof(struct node));
     newNode->data = val;
     newNode->next = NULL;
 
-    //if it is the first node
+
     if(front == NULL && rear == NULL)
-        //make both front and rear points to the new node
         front = rear = newNode;
     else
     {
-        //add newnode in rear->next
         rear->next = newNode;
-
-        //make the new node as the rear node
         rear = newNode;
     }
 }
 
-void dequeue()
+void del()
 {
-    //used to free the first node after dequeue
     struct node *temp;
 
     if(front == NULL)
-         printf("Queue is Empty. Unable to perform dequeue\n");
+         printf("Queue is Empty.\n");
     else
     {
-        //take backup
         temp = front;
 
-        //make the front node points to the next node
-        //logically removing the front element
         front = front->next;
 
-        //if front == NULL, set rear = NULL
+
         if(front == NULL)
             rear = NULL;
 
-       //free the first node
        free(temp);
     }
 
 }
 
+void search(int n)
+{
+	struct node *temp = front;
+	int c=0,i=1;
+	if(front==NULL)
+	{
+		printf("List is empty");
+	}
+	else{
+		while(temp!=NULL)
+		{
+			if(temp->data==n){
+				printf("\nFound at %d position",i);
+				c=1;
+				break;
+			}
+			temp=temp->next;
+			i++;
+		}
+	}
+	if(c==0){
+		printf("\nElement not found!");
+	}
+}
+
 void printList()
 {
     struct node *temp = front;
-
-    while(temp)
+    printf("\n");
+    while(temp!=NULL)
     {
-        printf("%d->",temp->data);
+        printf("%d ",temp->data);
         temp = temp->next;
     }
-    printf("NULL\n");
 }
 
 int main()
 {
-    enqueue(10);
-    enqueue(20);
-    enqueue(30);
-    printf("Queue :");
+    insert(10);
+    insert(20);
+    insert(30);
     printList();
-    dequeue();
-    printf("After dequeue the new Queue :");
-    printList();
-    dequeue();
-    printf("After dequeue the new Queue :");
+    search(20);
+    search(90);
+    del();
     printList();
 
     return 0;
