@@ -91,6 +91,9 @@ int main()
     enqueue(20);
     enqueue(30);
     int z=dequeue();
-    printf("%d is deleted", z);
+    printList();
+    printf("%d is deleted", z);  
+    printf("\n After delete") ;              
+    printList(); 
     return 0;
 }
