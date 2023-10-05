@@ -11,7 +11,7 @@ struct node
 
 struct node *front = NULL, *rear = NULL;
 
-void insert(int val)
+void enqueue(int val)
 {
     struct node *newNode =(struct node *) malloc(sizeof(struct node));
     newNode->data = val;
@@ -27,7 +27,7 @@ void insert(int val)
     }
 }
 
-void del()
+int dequeue()
 {
     struct node *temp;
 
@@ -36,7 +36,7 @@ void del()
     else
     {
         temp = front;
-
+        int tempdata=front ->data;
         front = front->next;
 
 
@@ -44,6 +44,7 @@ void del()
             rear = NULL;
 
        free(temp);
+       return tempdata;
     }
 
 }
@@ -86,14 +87,10 @@ void printList()
 
 int main()
 {
-    insert(10);
-    insert(20);
-    insert(30);
-    printList();
-    search(20);
-    search(90);
-    del();
-    printList();
-
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    int z=dequeue();
+    printf("%d is deleted", z);
     return 0;
 }
