@@ -127,6 +127,15 @@ void post(struct node *root)
 }
 
 
+void bfs(struct node *root)
+{
+	int i,h=height(root);
+	for(i=1;i<=h;i++)
+	{
+		level(root,i);
+	}
+}
+
 //we get root with min value of right subtree
 struct node* getRightMin(struct node *root)
 {
@@ -139,10 +148,7 @@ struct node* getRightMin(struct node *root)
 	return root;
 }
 
-void bfs(struct node *root)
-{
-	
-}
+
 //3 cases
 struct node* del(struct node *root,int x)
 {
@@ -211,9 +217,9 @@ int main()
 {
 	int choice=0;
 	struct node *root=NULL;
-	while(choice!=7)
+	while(choice!=8)
 	{
-		printf("\n\nMenu\nEnter 1 to Iterative insert\nEnter 2 to insert child\nEnter 3 to delete child\nEnter 4 Preorder Traversal\nEnter 5 Inorder traversal\nEnter 6 PostOrder Traversal\nEnter 7 to Exit\n");
+		printf("\n\nMenu\nEnter 1 to Iterative insert\nEnter 2 to insert child\nEnter 3 to delete child\nEnter 4 Preorder Traversal\nEnter 5 Inorder traversal\nEnter 6 PostOrder Traversal\nEnter 7 to BFS\nEnter 8 to Exit\n");
 		printf("\nEnter your choice : ");
 		scanf("%d",&choice);
 		switch(choice)
