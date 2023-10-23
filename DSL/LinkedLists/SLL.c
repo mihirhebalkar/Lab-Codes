@@ -3,232 +3,232 @@
 
 struct Node {
     int data;
-    struct Node* prev;
     struct Node* next;
 };
 
 struct Node* createNode(int data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    if (newNode == NULL) {
-        printf("Underflow");
-    }
+    struct Node* newNode = malloc(sizeof(struct Node));
     newNode->data = data;
-    newNode->prev = NULL;
     newNode->next = NULL;
     return newNode;
 }
 
- 
-void insertAtBeginning(struct Node** head, int data) {
-    struct Node* newNode = createNode(data);
-    newNode->next = *head;
-    if (*head != NULL) {
-        (*head)->prev = newNode;
-    }
-    *head = newNode;
-}
-
-void insertAtEnd(struct Node** head, int data) {
-    struct Node* newNode = createNode(data);
-    struct Node* current = *head;
-    if (*head == NULL) {
-        *head = newNode;
-        return;
-    }
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    current->next = newNode;
-    newNode->prev = current;
-}
-//insert node at any position
-void insertAtPosition(struct Node** head, int data, int position) {
-    if (position < 0) {
-        printf("Position not found\n");
-        return;
-    }
-    if (position == 0 || *head == NULL) {
-        insertAtBeginning(head, data);
-        return;
-    }
-    struct Node* newNode = createNode(data);
-    struct Node* current = *head;
-    int currentPosition = 0;
-    while (currentPosition < position - 1 && current->next != NULL) {
-        current = current->next;
-        currentPosition++;
-    }
-    newNode->next = current->next;
-    if (current->next != NULL) {
-        current->next->prev = newNode;
-    }
-    current->next = newNode;
-    newNode->prev = current;
-}
-
-void deleteFirstNode(struct Node** head) {
-    if (*head == NULL) {
-        printf("List is empty. Nothing to delete.\n");
-        return;
-    }
-    struct Node* temp = *head;
-    *head = (*head)->next;
-    if (*head != NULL) {
-        (*head)->prev = NULL;
-    }
-    free(temp);
-}
-
-void deleteLastNode(struct Node** head)
-{
-    if(*head==NULL)
-    {
-        printf("List is empty.Nothing to delete.\n");
-        return;
-    }
-    struct Node* current = *head;
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    if (current->prev != NULL) {
-        current->prev->next = NULL;
-    } 
-    else {
-        
-        *head = NULL;
-    }
-    free(current);
-}
-
-void deleteAtPosition(struct Node** head, int position) {
-    if (position < 0) {
-        printf("Invalid position\n");
-        return;
-    }
-    if (position == 0 || *head == NULL) {
-        printf("Invalid position or empty list\n");
-        return;
-    }
-    struct Node* current = *head;
-    int currentPosition = 0;
-    while (currentPosition < position && current != NULL) {
-        current = current->next;
-        currentPosition++;
-    }
-    if (current == NULL) {
-        printf("Position out of range\n");
-        return;
-    }
-    if (current->prev != NULL) {
-        current->prev->next = current->next;
-    }
-    if (current->next != NULL) {
-        current->next->prev = current->prev;
-    }
-    free(current);
-}
-
-void concat(struct Node** head1, struct Node** head2) {
-    if (*head1 == NULL) {
-        *head1 = *head2;
-    } else if (*head2 != NULL) {
-        struct Node* current = *head1;
-        while (current->next != NULL) {
-            current = current->next;
-        }
-        current->next = *head2;
-        (*head2)->prev = current;
-    }
-}
-
-void reverse(struct Node **head) {
-    struct Node *current = *head;
-    struct Node *temp = NULL;
-    
-    while (current != NULL) {
-     
-        temp = current->prev;
-        current->prev = current->next;
-        current->next = temp;
-        current = current->prev;
-    }
-    if (temp != NULL) {
-        *head = temp->prev;
-    }
-}
-
-
-void display(struct Node* head) {
+void displayList(struct Node* head) {
     struct Node* current = head;
-    while (current != NULL) {
-        printf("%d ", current->data);
+
+    while (current) {
+        printf("%d -> ", current->data);
         current = current->next;
     }
+
+    printf("NULL\n");
 }
 
+struct Node* insertBeginning(struct Node* head, int data) {
+    struct Node* newNode = createNode(data);
 
-void search(struct Node* head, int value) {
+    if (head) {
+        newNode->next = head;
+    }
+
+    return newNode;
+}
+
+struct Node* insertEnd(struct Node* head, int data) {
+    struct Node* newNode = createNode(data);
+
+    if (!head) {
+        return newNode;
+    }
+
     struct Node* current = head;
-    int pos=1;
-    while (current != NULL) {
-        if (current->data == value){
-            printf("%d found at %d position\n",value,pos);
-            break;
-        }
+    while (current->next) {
         current = current->next;
-        pos++;
     }
+
+    current->next = newNode;
+
+    return head;
 }
 
-int ispresent(struct Node **head, int target)
-{
-    struct Node *temp=*head;
-    
-    while (temp != NULL)
-    {
-        if (temp->data == target)
-        {
-            return 1;
+struct Node* insertAfter(struct Node* head, int data, int key) {
+    struct Node* newNode = createNode(data);
+
+    struct Node* current = head;
+
+    while (current) {
+        if (current->data == key) {
+            newNode->next = current->next;
+            current->next = newNode;
+            return head;
         }
-        temp = temp->next;
+        current = current->next;
     }
+
+    printf("Key not found. Insertion failed.\n");
+    free(newNode);
+    return head;
+}
+
+struct Node* deleteBeginning(struct Node* head) {
+    if (head) {
+        struct Node* temp = head;
+        head = head->next;
+        free(temp);
+    }
+    return head;
+}
+
+struct Node* deleteEnd(struct Node* head) {
+    if (!head) {
+        return NULL;
+    }
+
+    if (!head->next) {
+        free(head);
+        return NULL;
+    }
+
+    struct Node* current = head;
+    while (current->next->next) {
+        current = current->next;
+    }
+
+    free(current->next);
+    current->next = NULL;
+
+    return head;
+}
+
+struct Node* deleteNodeByKey(struct Node* head, int key) {
+    if (!head) {
+        printf("List is empty!\n");
+        return NULL;
+    }
+
+    if (head->data == key) {
+        struct Node* temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    }
+
+    struct Node* current = head;
+
+    while (current->next) {
+        if (current->next->data == key) {
+            struct Node* temp = current->next;
+            current->next = current->next->next;
+            free(temp);
+            return head;
+        }
+        current = current->next;
+    }
+
+    printf("Key not found. Deletion failed.\n");
+    return head;
+}
+
+struct Node* reverseList(struct Node* head) {
+    struct Node* prev = NULL;
+    struct Node* current = head;
+    struct Node* nextNode;
+
+    while (current) {
+        nextNode = current->next;
+        current->next = prev;
+        prev = current;
+        current = nextNode;
+    }
+
+    return prev;
+}
+
+struct Node* concatenateLists(struct Node* list1, struct Node* list2) {
+    if (!list1) return list2;
+    if (!list2) return list1;
+
+    struct Node* current = list1;
+
+    while (current->next) {
+        current = current->next;
+    }
+
+    current->next = list2;
+
+    return list1;
+}
+
+int main() {
+    struct Node* list = NULL;
+    struct Node* list2 = NULL;
+
+    int choice, data, key;
+
+    while (1) {
+        printf("\n--- Singly Linked List Operations Menu ---\n");
+        printf("1. Insert at Beginning\n");
+        printf("2. Insert at End\n");
+        printf("3. Insert After Key\n");
+        printf("4. Delete from Beginning\n");
+        printf("5. Delete from End\n");
+        printf("6. Delete by Key\n");
+        printf("7. Reverse List\n");
+        printf("8. Concatenate Lists\n");
+        printf("9. Display List\n");
+        printf("10. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter data to insert at beginning: ");
+                scanf("%d", &data);
+                list = insertBeginning(list, data);
+                break;
+            case 2:
+                printf("Enter data to insert at end: ");
+                scanf("%d", &data);
+                list = insertEnd(list, data);
+                break;
+            case 3:
+                printf("Enter data to insert: ");
+                scanf("%d", &data);
+                printf("Enter key after which to insert: ");
+                scanf("%d", &key);
+                list = insertAfter(list, data, key);
+                break;
+            case 4:
+                list = deleteBeginning(list);
+                break;
+            case 5:
+                list = deleteEnd(list);
+                break;
+            case 6:
+                printf("Enter key to delete: ");
+                scanf("%d", &key);
+                list = deleteNodeByKey(list, key);
+                break;
+            case 7:
+                list = reverseList(list);
+                break;
+            case 8:
+                list2 = insertEnd(list2, 100); 
+                list2 = insertEnd(list2, 200);
+                list = concatenateLists(list, list2);
+                break;
+            case 9:
+                displayList(list);
+                break;
+            case 10:
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
     return 0;
 }
 
-int main(){
-    
-    struct Node *head1 = NULL;
-    struct Node *head2 = NULL;
-    
-    int temp;
-    insertAtEnd(&head1, 10);
-    insertAtEnd(&head1, 20);
-    insertAtEnd(&head1, 30);
-    insertAtEnd(&head1, 40);
-    insertAtEnd(&head1, 50);
-    
-    insertAtEnd(&head2, 10);
-    insertAtEnd(&head2, 200);
-    insertAtEnd(&head2, 30);
-    printf("First Linked List: ");
-    display(head1);
-    printf("\n");
-    search(head1,30);
-    printf("\nSecond Linked List: ");
-    display(head2);
-    printf("\n");
-    concat(&head1,&head2);
-    printf("\nConactenated Linked List : ");
-    display(head1);
-    printf("\n");
-    reverse(&head1);
-    printf("\nReversed Linked List: ");
-    display(head1);
-    
-    printf("\n");
-   
-
-    
-    return 0;
-}
 
