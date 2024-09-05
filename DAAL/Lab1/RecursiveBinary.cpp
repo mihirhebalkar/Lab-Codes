@@ -5,7 +5,7 @@ using namespace std;
 int recBinary(int arr[], int low, int high, int key){
     
     if(low<=high){
-        int mid=(low+high)/2;  //low + (high/low)/2 to avoid overflow
+        int mid=(low+high)/2;  //low + (high-low)/2 to avoid overflow
         
         if(arr[mid]==key){
             return mid;
