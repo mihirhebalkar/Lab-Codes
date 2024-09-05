@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
-int spanningTree(int V, vector<vector<int>>& adjMatrix) {
+int spanningTree(int V, vector<vector<int>> adj[]) {
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     vector<int> vis(V, 0);
+    vector<pair<int, int>> mstEdges;
     pq.push({0, 0});
     int sum = 0;
 
@@ -15,37 +15,51 @@ int spanningTree(int V, vector<vector<int>>& adjMatrix) {
         int wt = it.first;
 
         if (vis[node] == 1) continue;
-
         vis[node] = 1;
         sum += wt;
 
-        for (int i = 0; i < V; ++i) {
-            if (adjMatrix[node][i] != 0 && !vis[i]) {
-                pq.push({adjMatrix[node][i], i});
+        if (wt != 0) {
+            mstEdges.push_back({node, wt});
+        }
+
+        for (auto it : adj[node]) {
+            int adjNode = it[0];
+            int edW = it[1];
+
+            if (!vis[adjNode]) {
+                pq.push({edW, adjNode});
             }
         }
     }
+
+    for (auto edge : mstEdges) {
+        cout << "Edge: " << edge.first << ", Weight: " << edge.second << endl;
+    }
+
     return sum;
 }
 
 int main() {
     int V = 5;
-    vector<vector<int>> edges = {{0, 1, 2}, {0, 2, 1}, {1, 2, 1}, {2, 3, 2}, {3, 4, 1}, {4, 2, 2}};
-    
+    vector<vector<int>> edges = {
+        {0, 1, 2}, {0, 2, 1}, {1, 2, 1},
+        {2, 3, 2}, {3, 4, 1}, {4, 2, 2}
+    };
 
-      vector<vector<int>> adjMatrix(V, vector<int>(V, 0));
-    
-    // Fill the adjacency matrix
+    vector<vector<int>> adj[V];
     for (auto it : edges) {
-        int u = it[0];
-        int v = it[1];
-        int w = it[2];
-        adjMatrix[u][v] = w;
-        adjMatrix[v][u] = w; // For undirected graph
+        vector<int> tmp(2);
+        tmp[0] = it[1];
+        tmp[1] = it[2];
+        adj[it[0]].push_back(tmp);
+
+        tmp[0] = it[0];
+        tmp[1] = it[2];
+        adj[it[1]].push_back(tmp);
     }
 
-    int sum = spanningTree(V, adjMatrix);
-    cout << "The sum of all the edge weights: " << sum << endl;
+    int sum = spanningTree(V, adj);
+    cout << "Sum of MST edge weights: " << sum << endl;
 
     return 0;
 }
