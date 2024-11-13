@@ -1,3 +1,9 @@
+#include<iostream>
+#include<bits/stdc++.h>
+
+
+using namespace std;
+
 class Solution {
 public:
 
@@ -51,12 +57,15 @@ int main() {
     
     vector<vector<string>> result = sol.solveNQueens(n);
 
-    cout << "Possible solutions for N-Queens (" << n << "):" << endl;
+    cout <<"Solutions n = "<<n<< endl;
     for (const auto& board : result) {
         for (const auto& row : board) {
-            cout << row << endl;
+            for(const auto &ch : row){
+                cout<<ch<<" ";
+            }
+            cout<<endl;
         }
-        cout << endl;  // Separate solutions with a blank line
+        cout << endl; 
     }
 
     return 0;
