@@ -37,7 +37,7 @@ void decrypt(string &plaintext, string key, string &ciphertext){
     int keyP=0;
     plaintext="";
     for(int i=0; i<ciphertext.size();i++){
-        char c=(ciphertext[i]-key[keyP])%26;
+        char c=(ciphertext[i]-key[keyP]+26)%26;
         
         keyP=(keyP+1)%(key.size());
         plaintext+=c+'A';
