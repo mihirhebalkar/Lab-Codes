@@ -47,7 +47,14 @@ int main() {
     
     cout << "RSA Implementation"<<endl;
     
-    int p=3, q=11;
+    int p,q;
+    cout<<"Enter p : ";
+    cin>>p;
+    
+    
+    cout<<"Enter q : ";
+    cin>>q;
+    
     
     int n=p*q;
     
@@ -60,7 +67,11 @@ int main() {
     pair<int, int> publicK = {e,n};
     pair<int, int> privateK = {d,n};
     
-    int m=2;
+    int m;
+    
+    cout<<"Enter plaintext : ";
+    cin>>m;
+    
     cout<<"Plaintext : "<<m<<endl;
     cout<<"Encryption => "<<encrypt(m, publicK)<<endl;
     cout<<"Decryption => "<<decrypt(encrypt(m, publicK), privateK)<<endl;
