@@ -1,1 +1,1 @@
-### This repository contains all the lab codes of Sem 3
+### This repository contains all the Lab course codes from Sem 3,4,5,6

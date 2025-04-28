@@ -1,80 +1,54 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cmath>
 using namespace std;
 
-//calculating e
-int gcd(int a, int b){
-    if(b==0) return a;
+// Function to compute (base^exp) % mod
+long long powerMod(long long base, long long exp, long long mod) {
+    long long result = 1;
+    base = base % mod;
     
-    return gcd(b, a % b);
-}
-
-int gcde(int totient){ //finding coprime  e not factor of totient
-    for(int e=2; e<totient;e++){
-        if(gcd(e,totient)==1 && totient%e!=0){
-            return e;
+    while(exp>0){
+        if(exp%2==1){
+            result = (result*base)%mod;
         }
+        exp=exp/2;
+        base = (base*base)%mod;
+    }
+    return result;
+}
+
+// Function to compute modular inverse
+int modInverse(int e, int phi) {
+    for (int d = 1; d < phi; d++) {
+        if ((e * d) % phi == 1)
+            return d;
     }
     return -1;
-}
-
-//calculating d
-int modInverse(int e, int totient) {
-    for(int d = 2; d < totient; d++) {
-        if((e*d) % totient == 1) return d;
-    }
-    return -1;
-}
-
-int power(int m, int e, int n){ //c= (m^e)%n
-    
-    int c=1;
-    for(int i=1;i<=e;i++){
-        c=c*m;
-    }
-    
-    return c%n;
-}
-
-int encrypt(int m, pair<int, int> pub){
-    return power(m, pub.first, pub.second);
-}
-
-int decrypt(int m, pair<int, int>pri){
-    return power(m, pri.first, pri.second);
 }
 
 int main() {
-    
-    cout << "RSA Implementation"<<endl;
-    
-    int p,q;
-    cout<<"Enter p : ";
-    cin>>p;
-    
-    
-    cout<<"Enter q : ";
-    cin>>q;
-    
-    
-    int n=p*q;
-    
-    int totient = (p-1)*(q-1);
-    
-    int e = gcde(totient); //encryption key
-    int d = modInverse(e, totient); //decryption key
-    // cout<<totient<<" "<<e<<" "<<d<<endl;
-    
-    pair<int, int> publicK = {e,n};
-    pair<int, int> privateK = {d,n};
-    
-    int m;
-    
-    cout<<"Enter plaintext : ";
-    cin>>m;
-    
-    cout<<"Plaintext : "<<m<<endl;
-    cout<<"Encryption => "<<encrypt(m, publicK)<<endl;
-    cout<<"Decryption => "<<decrypt(encrypt(m, publicK), privateK)<<endl;
+    int p = 3, q = 11;
+    int n = p * q; // n = 33
+    int phi = (p - 1) * (q - 1); // phi = 20
+    int e = 7; // Public key exponent
+
+    // Find private key (d)
+    int d = modInverse(e, phi);
+
+    cout << "Public Key (e, n): (" << e << ", " << n << ")" << endl;
+    cout << "Private Key (d, n): (" << d << ", " << n << ")" << endl;
+
+    int message;
+    cout << "\nEnter the message (number) to encrypt (0 < message < " << n << "): ";
+    cin >> message;
+
+    // Encryption
+    int cipher = powerMod(message, e, n);
+    cout << "Encrypted Cipher Text: " << cipher << endl;
+
+    // Decryption
+    int decryptedMessage = powerMod(cipher, d, n);
+    cout << "Decrypted Plain Text Message: " << decryptedMessage << endl;
+
     return 0;
 }
-

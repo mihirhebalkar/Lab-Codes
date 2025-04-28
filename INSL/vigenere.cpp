@@ -1,13 +1,15 @@
-#include <iostream>
-#include<bits/stdc++.h>
-using namespace std;
+#include <bits/stdc++.h>
 
+using namespace std;
 vector<vector<char>> vignere(26, vector<char> (26, 'A'));
 
-void preprocess(string &plaintext){
-    for (auto& x : plaintext) {
-        x = toupper(x);
+string generateKey(string str, string key) {
+    int i=0;
+    while(key.size() != str.size()) {
+        key.push_back(key[i]);
+        i++;
     }
+    return key;
 }
 
 void makeTable(vector<vector<char>> &vignere){
@@ -19,45 +21,33 @@ void makeTable(vector<vector<char>> &vignere){
         cout<<endl;
     }
 }
-
-void encrypt(string &plaintext, string key, string &ciphertext){
-    int keyP=0;
+void encrypt(string plaintext, string key){
+    string ciphertext="";
     for(int i=0; i<plaintext.size();i++){
         char c=plaintext[i];
-        char kc = key[keyP];
-        keyP=(keyP+1)%(key.size());
+        char kc = key[i];
+
         ciphertext+=(vignere[kc-'A'][c-'A']);
     }
     cout<<endl<<"Cipher text : ";
     cout<<ciphertext;
 }
 
-void decrypt(string &plaintext, string key, string &ciphertext){
-    int keyP=0;
-    plaintext="";
+void decrypt(string ciphertext, string key){
+    string plaintext="";
     for(int i=0; i<ciphertext.size();i++){
-        char c=(ciphertext[i]-key[keyP]+26)%26;
-        
-        keyP=(keyP+1)%(key.size());
+        char c=(ciphertext[i]-key[i]+26)%26;
+    
         plaintext+=c+'A';
     }
     cout<<endl<<"Plaintext : ";
     cout<<plaintext;
 }
 
+
 int main() {
-    string key, plaintext, ciphertext;
-    cout<<"Table : "<<endl;
+    string str="XMTWESINOYVED", key="LEMON";
     makeTable(vignere);
-    cout<<"Enter key : ";
-    cin>>key;
-    cout<<"Enter plaintext : ";
-    cin>>plaintext;
-    preprocess(key);
-    preprocess(plaintext);
-    
-    encrypt(plaintext, key,ciphertext);
-    decrypt(plaintext, key, ciphertext);
-    
-    return 0;
+    key = generateKey(str, key);
+    decrypt(str,key);
 }
