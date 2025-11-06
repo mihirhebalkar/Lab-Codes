@@ -136,11 +136,6 @@ function [gbest, curve] = hybrid_pso(f, dim, bounds, n, max_iter)
 
             pos(i,:) = max(min(pos(i,:) + vel(i,:), ub), lb);
 
-            % Occasional random mutation
-            if rand < mutation_prob
-                m = randi(dim);
-                pos(i,m) = lb + (ub-lb)*rand();
-            end
 
             fit(i) = f(pos(i,:));
             if fit(i) < pbest_fit(i)
